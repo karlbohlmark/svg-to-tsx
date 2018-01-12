@@ -17,7 +17,7 @@ svg-to-tsx --name Logo smth.svg
 
 ```js
 import * as fs from 'fs'
-import { svgToTsx } from 'jsx-to-tsx'
+import { svgToTsx } from 'svg-to-tsx'
 
 let tsxSource = await svgToTsx(fs.readFileSync('icon.svg').toString(), { name: 'MyIcon' })
 ```
