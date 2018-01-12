@@ -16,24 +16,55 @@ const SVGO = new svgo({});
 
 async function svgToTsx(svg, options) {
     const name = options.name
-    let exportName = name ? `const ${name}`: 'default'
+    let exportName = name ? `const ${name} =`: 'default'
     const jsxImport = options.jsxImport || "import * as React from 'react'" 
     const propType = options.propType || 'React.SVGAttributes<SVGElement> & React.SVGProps<SVGElement>'
-    svg = (await SVGO.optimize(svg, fileName)).data;
+    svg = (await SVGO.optimize(svg, name)).data;
     svg = await svgtojsx(svg);
     let jsx = converter.convert(svg);
-    let tsx = `{jsxImport}\nexport ${exportName} (props: ${propType})=> ${jsx}`;
+    let tsx = `${jsxImport}\nexport ${exportName} (props: ${propType})=> ${jsx}`;
     return tsx;
 }
 
 if (!module.parent) {
-    var file = process.argv[2];
+    const opts = {}
+    const files = []
+    const args = process.argv.slice(2)
+    for(let i = 0; i < args.length; i++) {
+        const arg = args[i]
+        if (arg.startsWith('--')) {
+            opts[arg.slice(2)] = args[i + 1]
+            i++
+        } else {
+            files.push(arg)
+        }
+    }
+    var file = files[0]
+    
     var name = path.basename(file)
+    let extension = path.extname(name)
+    name = name.replace(extension, '')
+    name = name[0].toUpperCase() + name.slice(1)
+    // console.log(name, extension)
+
+    const options = { name }
+    
+    if (opts.name) {
+        options.name = name
+    }
+    if (opts.jsx) {
+        options.jsxImport = opts.jsx
+    }
+    if (opts.prop) {
+        options.propType = options.prop
+    }
+    
+
     fs.readFile(file, (err, content) => {
         if (err) {
             throw err
         }
-        let result = svgToTsx(content.toString(), {name, jsxImport: "import { jsx } from '../jsx'"});
+        let result = svgToTsx(content.toString(), options);
         result.then(console.log);
     });
 }
