@@ -1,0 +1,19 @@
+{
+  "name": "svg-to-tsx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "svg-to-tsx": "./index.js"
+  },
+  "author": "Karl Böhlmark <karl.bohlmark@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "htmltojsx": "^0.3.0",
+    "svg-to-jsx": "0.0.21",
+    "svgo": "^1.0.3"
+  }
+}
