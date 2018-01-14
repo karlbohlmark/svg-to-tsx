@@ -45,6 +45,9 @@ if (!module.parent) {
     let extension = path.extname(name)
     name = name.replace(extension, '')
     name = name[0].toUpperCase() + name.slice(1)
+    name = name.replace(/-\w/g, function(m) {
+        return m[1].toUpperCase();
+    });
     // console.log(name, extension)
 
     const options = { name }
