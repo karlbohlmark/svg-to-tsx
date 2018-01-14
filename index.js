@@ -5,7 +5,6 @@ const fs = require("fs");
 const path = require("path");
 const svgtojsx = require("svg-to-jsx");
 const svgo = require("svgo");
-const ToJsx = htmltojsx;
 
 const SVGO = new svgo({});
 
