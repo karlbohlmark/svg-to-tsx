@@ -15,6 +15,7 @@ async function svgToTsx(svg, options) {
     const propType = options.propType || 'React.SVGAttributes<SVGElement> & React.SVGProps<SVGElement>'
     svg = (await SVGO.optimize(svg, name)).data;
     let jsx = await svgtojsx(svg);
+    jsx = jsx.replace(/(<svg [^>]*)>/, '$1 {...props}>');
     let tsx = `${jsxImport}\nexport ${exportName} (props: ${propType})=> ${jsx}`;
     return tsx;
 }
