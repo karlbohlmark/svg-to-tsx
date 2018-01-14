@@ -12,7 +12,6 @@
   "author": "Karl Böhlmark <karl.bohlmark@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "htmltojsx": "^0.3.0",
     "svg-to-jsx": "0.0.21",
     "svgo": "^1.0.3"
   }

@@ -4,13 +4,8 @@
 const fs = require("fs");
 const path = require("path");
 const svgtojsx = require("svg-to-jsx");
-const htmltojsx = require("htmltojsx");
 const svgo = require("svgo");
 const ToJsx = htmltojsx;
-
-var converter = new ToJsx({
-    createClass: false
-});
 
 const SVGO = new svgo({});
 
@@ -20,8 +15,7 @@ async function svgToTsx(svg, options) {
     const jsxImport = options.jsxImport || "import * as React from 'react'" 
     const propType = options.propType || 'React.SVGAttributes<SVGElement> & React.SVGProps<SVGElement>'
     svg = (await SVGO.optimize(svg, name)).data;
-    svg = await svgtojsx(svg);
-    let jsx = converter.convert(svg);
+    let jsx = await svgtojsx(svg);
     let tsx = `${jsxImport}\nexport ${exportName} (props: ${propType})=> ${jsx}`;
     return tsx;
 }
